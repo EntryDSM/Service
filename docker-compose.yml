@@ -1,0 +1,33 @@
+version: "3"
+
+networks:
+ entrydsm:
+  driver: bridge
+
+services:
+  ostiarius:
+      ports:
+          - '7777:7777'
+      image: 'registry.entrydsm.hs.kr/ostiarius:latest'
+      restart: always
+      networks: 
+        - entrydsm
+      healthcheck:
+        test: ["CMD", "curl", "-f", "http://ostiarius:7777/ping"]
+        interval: 5s
+        timeout: 2s
+        retries: 15
+
+  hermes:
+    environment:
+      - GITHUB_TOKEN=${GITHUB_TOKEN}
+    container_name: hermes
+    image: 'registry.entrydsm.hs.kr/hermes:latest'
+    restart: always
+    networks: 
+      - entrydsm
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://hermes/"]
+      interval: 5s
+      timeout: 2s
+      retries: 15
