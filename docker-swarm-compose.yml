@@ -1,0 +1,27 @@
+version: "3"
+
+networks:
+ entry-net:
+  driver: overlay
+  
+services:
+  ostiarius:
+      ports:
+          - '7777:7777'
+      image: 'registry.entrydsm.hs.kr/ostiarius:latest'
+      depends_on: 
+        - hermes
+      networks: 
+        - entry-net
+      deploy:
+        replicas: 3
+
+  hermes:
+    environment:
+      - GITHUB_TOKEN=${GITHUB_TOKEN}
+    container_name: hermes
+    image: 'registry.entrydsm.hs.kr/hermes:latest'
+    networks: 
+      - entry-net
+    deploy:
+      replicas: 3
