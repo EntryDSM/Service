@@ -21,6 +21,7 @@ services:
   hermes:
     environment:
       - GITHUB_TOKEN=${GITHUB_TOKEN}
+      - VAULT_TOKEN=${VAULT_TOKEN}
     container_name: hermes
     image: 'registry.entrydsm.hs.kr/hermes:latest'
     restart: always
